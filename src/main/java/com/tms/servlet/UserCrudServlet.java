@@ -12,6 +12,7 @@ import java.io.IOException;
 
 @WebServlet("/user")
 public class UserCrudServlet extends HttpServlet {
+
     UserCrudService userCrudService = new UserCrudService();
 
     @Override
@@ -30,7 +31,7 @@ public class UserCrudServlet extends HttpServlet {
         String password = req.getParameter("password");
         String email = req.getParameter("email");
         String telephoneNumber = req.getParameter("telephoneNumber");
-        boolean result = userCrudService.createUser();
+        boolean result = userCrudService.createUser(firstName, lastName, login, password, email, telephoneNumber);
         if (result) {
             getServletContext().getRequestDispatcher("/WEB-INF/jsp/successfully.jsp").forward(req, resp);
         }
@@ -39,6 +40,20 @@ public class UserCrudServlet extends HttpServlet {
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
+        int id = Integer.parseInt(req.getParameter("id"));
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
+        String login = req.getParameter("login");
+        String password = req.getParameter("password");
+        String email = req.getParameter("email");
+        String telephoneNumber = req.getParameter("telephoneNumber");
+        boolean result = userCrudService.updateUser(id, firstName, lastName, login, password, email, telephoneNumber);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        boolean result = userCrudService.deleteUser(id);
+        System.out.println(result);
     }
 }
