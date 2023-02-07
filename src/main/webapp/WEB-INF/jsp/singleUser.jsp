@@ -3,10 +3,10 @@
 <% User userJsp = (User) request.getAttribute("user");%>
 <html>
 <head>
-    <title>Title</title>
+    <title>User info</title>
 </head>
 <body>
-<h1>Hello, this is your User!</h1>
+<h1> Hello, this is your User!</h1>
 <h3>User id: <%userJsp.getId();%></h3>
 <h3>User first name: <%userJsp.getFirstName();%></h3>
 <h3>User last name: <%userJsp.getLastName();%></h3>

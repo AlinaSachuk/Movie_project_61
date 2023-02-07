@@ -18,9 +18,7 @@ public class UserCrudServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int requestUserId = Integer.parseInt(req.getParameter("id"));
         User user = userCrudService.getUserById(requestUserId);
-
-        req.setAttribute("name", user);
-
+        req.setAttribute("user", user);
         getServletContext().getRequestDispatcher("/WEB-INF/jsp/singleUser.jsp").forward(req, resp);
     }
 
@@ -33,7 +31,7 @@ public class UserCrudServlet extends HttpServlet {
         String email = req.getParameter("email");
         String telephoneNumber = req.getParameter("telephoneNumber");
         boolean result = userCrudService.createUser();
-        if (result){
+        if (result) {
             getServletContext().getRequestDispatcher("/WEB-INF/jsp/successfully.jsp").forward(req, resp);
         }
         getServletContext().getRequestDispatcher("/WEB-INF/jsp/unsuccessfully.jsp").forward(req, resp);

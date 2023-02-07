@@ -3,6 +3,7 @@ package com.tms.domain;
 import lombok.Data;
 
 import java.sql.Date;
+
 @Data
 public class User {
     private int id;
