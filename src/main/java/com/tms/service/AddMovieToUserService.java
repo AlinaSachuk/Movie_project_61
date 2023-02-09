@@ -20,8 +20,8 @@ public class AddMovieToUserService {
 
             PreparedStatement statement = connection.prepareStatement("INSERT INTO l_user_movie (id, user_id, movie_id)" +
                     "VALUES (DEFAULT, ?, ?)");
-            statement.setString(1, "user_id");
-            statement.setString(2, "movie_id");
+            statement.setInt(1, userId);
+            statement.setInt(2, movieId);
             result = statement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("something wrong....");
