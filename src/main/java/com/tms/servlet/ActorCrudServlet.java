@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 @WebServlet("/actor")
 public class ActorCrudServlet extends HttpServlet {
     ActorCrudService actorCrudService = new ActorCrudService();
@@ -21,4 +22,32 @@ public class ActorCrudServlet extends HttpServlet {
         getServletContext().getRequestDispatcher("/WEB-INF/jsp/singleActor.jsp").forward(req, resp);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
+        int age = Integer.parseInt(req.getParameter("age"));
+        String biography = req.getParameter("biography");
+        boolean result = actorCrudService.createActor(firstName, lastName, age, biography);
+        if (result) {
+            getServletContext().getRequestDispatcher("/WEB-INF/jsp/successfully.jsp").forward(req, resp);
+        }
+        getServletContext().getRequestDispatcher("/WEB-INF/jsp/unsuccessfully.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        String firstName = req.getParameter("firstName");
+        String lastName = req.getParameter("lastName");
+        int age = Integer.parseInt(req.getParameter("age"));
+        String biography = req.getParameter("biography");
+        actorCrudService.updateActor(id, firstName, lastName, age, biography);
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int actorId = Integer.parseInt(req.getParameter("id"));
+        actorCrudService.deleteActor(actorId);
+        }
 }

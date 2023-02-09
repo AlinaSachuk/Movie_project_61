@@ -72,8 +72,8 @@ public class UserCrudService {
             statement.setString(4, password);
             statement.setDate(5, new Date((new java.util.Date()).getTime()));
             statement.setString(6, email);
-            statement.setDate(7, new Date((new java.util.Date()).getTime())); //TODO: CHANGE DATE
-            statement.setString(8, telephoneNumber); //TODO + to _
+            statement.setDate(7, new Date((new java.util.Date()).getTime()));
+            statement.setString(8, telephoneNumber);
             statement.setInt(9, id);
 
             result = statement.executeUpdate();
