@@ -25,7 +25,7 @@ public class SubscriptionServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        boolean result = subscriptionCrudService.createSubscription();
+        boolean result = subscriptionCrudService.createSubscription(Integer.parseInt(req.getParameter("user_id")));
         if (result) {
             getServletContext().getRequestDispatcher("/WEB-INF/jsp/successfully.jsp").forward(req, resp);
         }

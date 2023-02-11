@@ -30,7 +30,7 @@ public class SubscriptionCrudService {
         }
         return subscription;
     }
-    public boolean createSubscription () {
+    public boolean createSubscription (int userId) {
         int result = 0;
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/movie_db", "postgres", "root")) {
 
