@@ -17,7 +17,7 @@ public class GiveAllMoviesFromUserService {
     public ArrayList<Movie> getMovies(int id) {
         ArrayList<Movie> movieList = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/movie_db", "postgres", "root")) {
-            PreparedStatement statement = connection.prepareStatement("SELECT m.id, m.movie_name, m.year, m.genre, m.rating, m.description FROM l_user_movie JOIN movie_table as m ON l_user_movie.movie_id = m.id WHERE l_user_movie.user_id=?)");
+            PreparedStatement statement = connection.prepareStatement("SELECT m.id, m.movie_name, m.year, m.genre, m.rating, m.description FROM l_user_movie JOIN movie_table as m ON l_user_movie.movie_id = m.id WHERE l_user_movie.user_id=?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
