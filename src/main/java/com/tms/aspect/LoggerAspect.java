@@ -2,13 +2,24 @@ package com.tms.aspect;
 
 import org.apache.log4j.Logger;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalTime;
 
 @Aspect
 @Component
 public class LoggerAspect {
     private final Logger log = Logger.getLogger(this.getClass());
+
+    @Around("within(com.tms.*)")
+    public void getLogAround(ProceedingJoinPoint joinPoint) throws Throwable {
+        LocalTime start = LocalTime.now();
+        joinPoint.proceed();
+        LocalTime end = LocalTime.now();
+        log.info("Method worked time: " + (end.getNano() - start.getNano()));
+    }
 
     @Before("within(com.tms.*)")
     public void getLogBefore(JoinPoint joinPoint) {

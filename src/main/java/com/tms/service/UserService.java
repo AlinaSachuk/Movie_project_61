@@ -1,10 +1,12 @@
 package com.tms.service;
 
 import com.tms.domain.User;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 
-public class UserCrudService {
+@Service
+public class UserService {
     {
         try {
             Class.forName("org.postgresql.Driver");
