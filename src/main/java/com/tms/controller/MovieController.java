@@ -2,6 +2,7 @@ package com.tms.controller;
 
 import com.tms.domain.Movie;
 import com.tms.service.MovieService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +18,16 @@ public class MovieController {
         this.movieService = movieService;
     }
 
+    private final Logger log = Logger.getLogger(this.getClass());
+
+
     @GetMapping("/{id}")
     public String getMovie(@PathVariable int id, Model model) {
+        log.info("doing /movie Get method!");
         Movie movie = movieService.getMovieById(id);
+        if (movie.getId() == 0) {
+            log.warn("Movie is not found! Trying find id=" + id);
+        }
         model.addAttribute("movie", movie);
         return "singleMovie";
     }
@@ -31,6 +39,7 @@ public class MovieController {
                               @RequestParam double rating,
                               @RequestParam String description
     ) {
+        log.info("doing /movie Post method!");
         boolean result = movieService.createMovie(movieName, year, genre, rating, description);
         return result ? "successfully" : "unsuccessfully";
     }
@@ -49,6 +58,7 @@ public class MovieController {
 
     @DeleteMapping("/{id}")
     public String deleteMovie (@PathVariable int id){
+        log.info("doing /movie Delete method!");
         boolean result = movieService.deleteMovie(id);
         return result ? "successfully" : "unsuccessfully";
     }
