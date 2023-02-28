@@ -1,7 +1,7 @@
 package com.tms.servlet;
 
 import com.tms.domain.Movie;
-import com.tms.service.MovieCrudService;
+import com.tms.service.MovieService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,12 +12,12 @@ import java.io.IOException;
 
 @WebServlet("/movie")
 public class MovieCrudServlet extends HttpServlet {
-    MovieCrudService movieCrudService = new MovieCrudService();
+    MovieService movieService = new MovieService();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int requestMovieId = Integer.parseInt(req.getParameter("id"));
-        Movie movie = movieCrudService.getMovieById(requestMovieId);
+        Movie movie = movieService.getMovieById(requestMovieId);
         req.setAttribute("movie", movie);
         getServletContext().getRequestDispatcher("/WEB-INF/jsp/singleMovie.jsp").forward(req, resp);
     }
@@ -29,7 +29,7 @@ public class MovieCrudServlet extends HttpServlet {
         String genre = req.getParameter("genre");
         double rating = Double.parseDouble(req.getParameter("rating"));
         String description = req.getParameter("description");
-        boolean result = movieCrudService.createMovie(movieName, year, genre, rating, description);
+        boolean result = movieService.createMovie(movieName, year, genre, rating, description);
         if (result) {
             getServletContext().getRequestDispatcher("/WEB-INF/jsp/successfully.jsp").forward(req, resp);
         }
@@ -44,12 +44,12 @@ public class MovieCrudServlet extends HttpServlet {
         String genre = req.getParameter("genre");
         double rating = Double.parseDouble(req.getParameter("rating"));
         String description = req.getParameter("description");
-        movieCrudService.updateMovie(id, movieName, year, genre, rating, description);
+        movieService.updateMovie(id, movieName, year, genre, rating, description);
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
-        movieCrudService.deleteMovie(id);
+        movieService.deleteMovie(id);
     }
 }

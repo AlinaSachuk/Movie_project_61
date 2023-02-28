@@ -40,21 +40,21 @@ public class UserService {
         return user;
     }
 
-    public boolean createUser(String firstName, String lastName, String login, String password, String email, String telephoneNumber) {
+    public boolean createUser(User user) {
         int result = 0;
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/movie_db", "postgres", "root")) {
 
             PreparedStatement statement = connection.prepareStatement("INSERT INTO user_table (id, first_name, last_name, login, password, created, changed,email,birthday_date,is_deleted, telephone) " +
                     "VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, DEFAULT, ?)");
-            statement.setString(1, firstName);
-            statement.setString(2, lastName);
-            statement.setString(3, login);
-            statement.setString(4, password);
+            statement.setString(1, user.getFirstName());
+            statement.setString(2, user.getLastName());
+            statement.setString(3, user.getLogin());
+            statement.setString(4, user.getPassword());
             statement.setDate(5, new Date((new java.util.Date()).getTime()));
             statement.setDate(6, new Date((new java.util.Date()).getTime()));
-            statement.setString(7, email);
-            statement.setDate(8, new Date((new java.util.Date()).getTime())); //TODO: CHANGE DATE
-            statement.setString(9, telephoneNumber); //TODO + to _
+            statement.setString(7, user.getEmail());
+            statement.setDate(8, new Date((new java.util.Date()).getTime()));
+            statement.setString(9, user.getTelephoneNumber());
 
             result = statement.executeUpdate();
         } catch (SQLException e) {

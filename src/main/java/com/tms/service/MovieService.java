@@ -1,10 +1,12 @@
 package com.tms.service;
 
 import com.tms.domain.Movie;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 
-public class MovieCrudService {
+@Service
+public class MovieService {
     {
         try {
             Class.forName("org.postgresql.Driver");
