@@ -4,6 +4,7 @@ import com.tms.domain.Movie;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 @Service
 public class MovieService {
@@ -34,6 +35,7 @@ public class MovieService {
         }
         return movie;
     }
+
     public boolean createMovie(String movieName, int year, String genre, double rating, String description) {
         int result = 0;
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/movie_db", "postgres", "root")) {
@@ -51,6 +53,7 @@ public class MovieService {
         }
         return result == 1;
     }
+
     public boolean updateMovie(int id, String movieName, int year, String genre, double rating, String description) {
         int result = 0;
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/movie_db", "postgres", "root")) {
@@ -69,6 +72,7 @@ public class MovieService {
         }
         return result == 1;
     }
+
 
     public boolean deleteMovie(int id) {
         int result = 0;

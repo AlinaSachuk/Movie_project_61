@@ -1,6 +1,7 @@
 package com.tms.controller;
 
 import com.tms.Main;
+import com.tms.domain.Movie;
 import com.tms.domain.User;
 import com.tms.service.UserService;
 import org.apache.log4j.Logger;
@@ -12,6 +13,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 
 
 @Controller
@@ -33,6 +35,13 @@ public class UserController {
         return "singleUser";
     }
 
+    @GetMapping("/getMovies/{id}")
+    public String giveAllMoviesForThisUser (@PathVariable int id, Model model){
+        ArrayList<Movie> movieList = userService.getMoviesForSingleUser(id);
+        model.addAttribute("movieList", movieList.toString());
+        return "allMovies";
+    }
+
     @PostMapping
     public String createUser(@ModelAttribute @Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
@@ -43,6 +52,14 @@ public class UserController {
         }
         boolean result = userService.createUser(user);
         if (result) {
+            return "successfully";
+        }
+        return "unsuccessfully";
+    }
+
+    @PostMapping
+    public String addFilm(@RequestParam int userId, @RequestParam int movieId){
+        if (userService.addMovieToUser(userId, movieId)) {
             return "successfully";
         }
         return "unsuccessfully";
