@@ -2,7 +2,8 @@ package com.tms.controller;
 
 import com.tms.domain.Movie;
 import com.tms.service.MovieService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/movie")
 public class MovieController {
+
     MovieService movieService;
 
     @Autowired
@@ -18,8 +20,7 @@ public class MovieController {
         this.movieService = movieService;
     }
 
-    private final Logger log = Logger.getLogger(this.getClass());
-
+    private static final Logger log = LoggerFactory.getLogger(MovieController.class);
 
     @GetMapping("/{id}")
     public String getMovie(@PathVariable int id, Model model) {
@@ -33,11 +34,12 @@ public class MovieController {
     }
 
     @PostMapping
-    public String createMovie(@RequestParam String movieName,
-                              @RequestParam int year,
-                              @RequestParam String genre,
-                              @RequestParam double rating,
-                              @RequestParam String description
+    public String createMovie(
+            @RequestParam String movieName,
+            @RequestParam int year,
+            @RequestParam String genre,
+            @RequestParam Double rating,
+            @RequestParam String description
     ) {
         log.info("doing /movie Post method!");
         boolean result = movieService.createMovie(movieName, year, genre, rating, description);
@@ -45,19 +47,20 @@ public class MovieController {
     }
 
     @PutMapping
-    public String updateMovie(@RequestParam int id,
-                              @RequestParam String movieName,
-                              @RequestParam int year,
-                              @RequestParam String genre,
-                              @RequestParam double rating,
-                              @RequestParam String description
+    public String updateMovie(
+            @RequestParam int id,
+            @RequestParam String movieName,
+            @RequestParam int year,
+            @RequestParam String genre,
+            @RequestParam Double rating,
+            @RequestParam String description
     ) {
         boolean result = movieService.updateMovie(id, movieName, year, genre, rating, description);
         return result ? "successfully" : "unsuccessfully";
     }
 
     @DeleteMapping("/{id}")
-    public String deleteMovie (@PathVariable int id){
+    public String deleteMovie(@PathVariable int id) {
         log.info("doing /movie Delete method!");
         boolean result = movieService.deleteMovie(id);
         return result ? "successfully" : "unsuccessfully";

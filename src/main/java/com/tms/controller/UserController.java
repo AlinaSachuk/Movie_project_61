@@ -1,11 +1,12 @@
 package com.tms.controller;
 
-import com.tms.Main;
 import com.tms.domain.Movie;
 import com.tms.domain.User;
 import com.tms.service.UserService;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 public class UserController {
 
     UserService userService;
-    private final Logger log = Logger.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
@@ -29,7 +30,6 @@ public class UserController {
 
     @GetMapping("/{id}")
     public String getUserById(@PathVariable int id, Model model) {
-        System.out.println(10/2);
         User user = userService.getUserById(id);
         model.addAttribute("user", user);
         return "singleUser";
@@ -42,6 +42,7 @@ public class UserController {
         return "allMovies";
     }
 
+    @ResponseStatus(value = HttpStatus.CREATED)
     @PostMapping
     public String createUser(@ModelAttribute @Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
@@ -57,7 +58,7 @@ public class UserController {
         return "unsuccessfully";
     }
 
-    @PostMapping
+    @PostMapping("/addFilm")
     public String addFilm(@RequestParam int userId, @RequestParam int movieId){
         if (userService.addMovieToUser(userId, movieId)) {
             return "successfully";
@@ -81,7 +82,7 @@ public class UserController {
         return "unsuccessfully";
     }
 
-    @DeleteMapping("{/id}")
+    @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable int id) {
         if (userService.deleteUser(id)) {
             return "successfully";

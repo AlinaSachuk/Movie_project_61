@@ -34,7 +34,7 @@ public class SubscriptionController {
         return "unsuccessfully";
     }
 
-    @PostMapping(("/add/{userId}"))
+    @PostMapping(("/addSubscription/{userId}"))
     public String addSubscriptionToUser (@PathVariable int userId) {
         if (subscriptionService.addSubscription(userId)){
             return "successfully";
