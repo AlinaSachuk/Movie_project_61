@@ -6,7 +6,6 @@ import com.tms.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.*;
 import java.util.ArrayList;
 
 @Service
@@ -26,8 +25,8 @@ public class UserService {
         return userRepository.createUser(user);
     }
 
-    public boolean updateUser(int id, String firstName, String lastName, String login, String password, String email, String telephoneNumber) {
-        return userRepository.updateUser(id, firstName, lastName, login, password, email, telephoneNumber);
+    public boolean updateUser(User user) {
+        return userRepository.updateUser(user);
     }
 
     public boolean addMovieToUser (int userId, int movieId) {

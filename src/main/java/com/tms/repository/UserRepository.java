@@ -57,20 +57,20 @@ public class UserRepository {
         return result == 1;
     }
 
-    public boolean updateUser(int id, String firstName, String lastName, String login, String password, String email, String telephoneNumber) {
+    public boolean updateUser(User user) {
         int result = 0;
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/movie_db", "postgres", "root")) {
 
             PreparedStatement statement = connection.prepareStatement("UPDATE user_table SET first_name=?, last_name=?, login=?, password=?, changed=?,email=?,birthday_date=?, telephone=? WHERE id=?");
-            statement.setString(1, firstName);
-            statement.setString(2, lastName);
-            statement.setString(3, login);
-            statement.setString(4, password);
+            statement.setString(1, user.getFirstName());
+            statement.setString(2, user.getLastName());
+            statement.setString(3, user.getLogin());
+            statement.setString(4, user.getPassword());
             statement.setDate(5, new Date((new java.util.Date()).getTime()));
-            statement.setString(6, email);
+            statement.setString(6, user.getEmail());
             statement.setDate(7, new Date((new java.util.Date()).getTime()));
-            statement.setString(8, telephoneNumber);
-            statement.setInt(9, id);
+            statement.setString(8, user.getTelephoneNumber());
+            statement.setInt(9, user.getId());
 
             result = statement.executeUpdate();
         } catch (SQLException e) {
