@@ -3,6 +3,10 @@ package com.tms.controller;
 import com.tms.domain.Movie;
 import com.tms.domain.User;
 import com.tms.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +32,14 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(summary = "This method will give you user by id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All is going great"),
+            @ApiResponse(responseCode = "400", description = "Failed to get user by id..."),
+            @ApiResponse(responseCode = "500", description = "Server error...")
+    })
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable int id) {
+    public ResponseEntity<User> getUserById(@Parameter(description = "this is id you need to enter to get user") @PathVariable int id) {
         User user = userService.getUserById(id);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
