@@ -2,6 +2,9 @@ package com.tms.repository;
 
 import com.tms.domain.Movie;
 import com.tms.domain.User;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -9,89 +12,50 @@ import java.util.ArrayList;
 
 @Repository
 public class UserRepository {
-    public User getUserById(int id) {
-        User user = new User();
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/movie_db", "postgres", "root")) {
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM user_table WHERE id=?");
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
 
-            resultSet.next();
-            user.setId(resultSet.getInt("id"));
-            user.setFirstName(resultSet.getString("first_name"));
-            user.setLastName(resultSet.getString("last_name"));
-            user.setLogin(resultSet.getString("login"));
-            user.setPassword(resultSet.getString("password"));
-            user.setCreated(resultSet.getDate("created"));
-            user.setChanged(resultSet.getDate("changed"));
-            user.setEmail(resultSet.getString("email"));
-            user.setBirthdate(resultSet.getDate("birthday_date"));
-            user.setDeleted(resultSet.getBoolean("is_deleted"));
-            user.setTelephoneNumber(resultSet.getString("telephone"));
-        } catch (SQLException e) {
-            System.out.println("something wrong....");
+    private final SessionFactory sessionFactory;
+
+    public UserRepository() {
+        this.sessionFactory = new Configuration().configure().buildSessionFactory();
+    }
+
+
+    public User getUserById(int id) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        User user = session.get(User.class, id);
+        session.getTransaction().commit();
+        session.close();
+        if (user != null) {
+            return user;
         }
-        return user;
+        return new User();
     }
 
     public boolean createUser(User user) {
-        int result = 0;
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/movie_db", "postgres", "root")) {
-
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO user_table (id, first_name, last_name, login, password, created, changed,email,birthday_date,is_deleted, telephone) " +
-                    "VALUES (DEFAULT, ?, ?, ?, ?, ?, ?, ?, ?, DEFAULT, ?)");
-            statement.setString(1, user.getFirstName());
-            statement.setString(2, user.getLastName());
-            statement.setString(3, user.getLogin());
-            statement.setString(4, user.getPassword());
-            statement.setDate(5, new Date((new java.util.Date()).getTime()));
-            statement.setDate(6, new Date((new java.util.Date()).getTime()));
-            statement.setString(7, user.getEmail());
-            statement.setDate(8, new Date((new java.util.Date()).getTime()));
-            statement.setString(9, user.getTelephoneNumber());
-
-            result = statement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("something wrong....");
+        try {
+            Session session = sessionFactory.openSession();
+            session.beginTransaction();
+            session.save(user);
+            session.getTransaction().commit();
+            session.close();
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        return result == 1;
+        return true;
     }
 
     public boolean updateUser(User user) {
-        int result = 0;
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/movie_db", "postgres", "root")) {
-
-            PreparedStatement statement = connection.prepareStatement("UPDATE user_table SET first_name=?, last_name=?, login=?, password=?, changed=?,email=?,birthday_date=?, telephone=? WHERE id=?");
-            statement.setString(1, user.getFirstName());
-            statement.setString(2, user.getLastName());
-            statement.setString(3, user.getLogin());
-            statement.setString(4, user.getPassword());
-            statement.setDate(5, new Date((new java.util.Date()).getTime()));
-            statement.setString(6, user.getEmail());
-            statement.setDate(7, new Date((new java.util.Date()).getTime()));
-            statement.setString(8, user.getTelephoneNumber());
-            statement.setInt(9, user.getId());
-
-            result = statement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("something wrong....");
-        }
-        return result == 1;
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.saveOrUpdate(user);
+        session.getTransaction().commit();
+        session.close();
+        return true;
     }
 
     public boolean addMovieToUser(int userId, int movieId) {
-        int result = 0;
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/movie_db", "postgres", "root")) {
-
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO l_user_movie (id, user_id, movie_id)" +
-                    "VALUES (DEFAULT, ?, ?)");
-            statement.setInt(1, userId);
-            statement.setInt(2, movieId);
-            result = statement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("something wrong....");
-        }
-        return result == 1;
+        return true;
     }
 
     public ArrayList<Movie> getMoviesForSingleUser(int id) {
@@ -117,15 +81,16 @@ public class UserRepository {
     }
 
     public boolean deleteUser(int id) {
-        int result = 0;
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/movie_db", "postgres", "root")) {
-
-            PreparedStatement statement = connection.prepareStatement("UPDATE user_table SET is_deleted=true WHERE id=?");
-            statement.setInt(1, id);
-            result = statement.executeUpdate();
-        } catch (SQLException e) {
-            System.out.println("something wrong....");
+        try {
+            Session session = sessionFactory.openSession();
+            session.beginTransaction();
+            User user = session.get(User.class, id);
+            user.setDeleted(true);
+            session.getTransaction().commit();
+            session.close();
+        } catch (Exception e) {
+            System.out.println(e);
         }
-        return result == 1;
+        return true;
     }
 }
