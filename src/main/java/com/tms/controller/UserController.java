@@ -37,7 +37,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<ArrayList<User>> getAllUser() {
         ArrayList<User> list = userService.getAllUsers();
-        return new ResponseEntity<>(list, (!list.isEmpty()) ? HttpStatus.OK : HttpStatus.NOT_FOUND
+        return new ResponseEntity<>(list, (!list.isEmpty()) ? HttpStatus.OK : HttpStatus.NOT_FOUND);
     }
 
     @Operation(summary = "This method will give you user by id")
