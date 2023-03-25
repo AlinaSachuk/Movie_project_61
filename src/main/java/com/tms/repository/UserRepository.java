@@ -5,10 +5,12 @@ import com.tms.domain.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+import org.postgresql.core.Query;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Queue;
 
 @Repository
 public class UserRepository {
@@ -19,6 +21,15 @@ public class UserRepository {
         this.sessionFactory = new Configuration().configure().buildSessionFactory();
     }
 
+    public ArrayList<User> getAllUsers(){
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        Query query = (Query) session.createQuery("from User");
+        ArrayList<User> list = (ArrayList<User>) query.getResultList();
+        session.getTransaction().commit();
+        session.close();
+        return list;
+    }
 
     public User getUserById(int id) {
         Session session = sessionFactory.openSession();
@@ -42,12 +53,13 @@ public class UserRepository {
         } catch (Exception e) {
             System.out.println(e);
         }
-        return true;
+        return false;
     }
 
     public boolean updateUser(User user) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
+        user.setChanged(new Date(System.currentTimeMillis()));
         session.saveOrUpdate(user);
         session.getTransaction().commit();
         session.close();
@@ -91,6 +103,6 @@ public class UserRepository {
         } catch (Exception e) {
             System.out.println(e);
         }
-        return true;
+        return false;
     }
 }

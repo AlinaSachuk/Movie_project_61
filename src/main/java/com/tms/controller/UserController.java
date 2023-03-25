@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,13 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @Tag(name = "testTag")
+    @GetMapping
+    public ResponseEntity<ArrayList<User>> getAllUser() {
+        ArrayList<User> list = userService.getAllUsers();
+        return new ResponseEntity<>(list, (!list.isEmpty()) ? HttpStatus.OK : HttpStatus.NOT_FOUND
     }
 
     @Operation(summary = "This method will give you user by id")
@@ -66,7 +74,7 @@ public class UserController {
     @PostMapping("/addFilm")
     public ResponseEntity<HttpStatus> addFilm(@RequestParam int userId, @RequestParam int movieId) {
         userService.addMovieToUser(userId, movieId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping

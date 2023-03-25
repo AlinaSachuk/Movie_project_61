@@ -17,6 +17,10 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public ArrayList<User> getAllUsers() {
+        return userRepository.getAllUsers();
+    }
+
     public User getUserById(int id) {
         return userRepository.getUserById(id);
     }
@@ -29,11 +33,11 @@ public class UserService {
         return userRepository.updateUser(user);
     }
 
-    public boolean addMovieToUser (int userId, int movieId) {
+    public boolean addMovieToUser(int userId, int movieId) {
         return userRepository.addMovieToUser(userId, movieId);
     }
 
-    public ArrayList<Movie> getMoviesForSingleUser (int id) {
+    public ArrayList<Movie> getMoviesForSingleUser(int id) {
         return userRepository.getMoviesForSingleUser(id);
     }
 

@@ -11,7 +11,6 @@ import javax.validation.constraints.Size;
 import java.sql.Date;
 
 @Data
-@Component
 @Entity
 @Table(name = "user_table")
 public class User {
