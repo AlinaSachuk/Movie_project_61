@@ -27,7 +27,7 @@ public class User {
     private String lastName;
 
     @Column(name = "login")
-    @Pattern(regexp = "[A-Z]*}")
+    @Pattern(regexp = "[A-Z]*")
     private String login;
 
     @Column(name = "password")
