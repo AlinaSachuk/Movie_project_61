@@ -1,16 +1,19 @@
 package com.tms.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "movie_table")
+@ToString(exclude = {"userList"})
+@EqualsAndHashCode(exclude = {"userList"})
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mov_id_seq_gen")
@@ -31,4 +34,8 @@ public class Movie {
 
     @Column(name = "description")
     private String description;
+
+    @JsonBackReference
+    @ManyToMany(mappedBy = "movieList")
+    private Set<User> userList = new HashSet<>();
 }

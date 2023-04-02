@@ -6,18 +6,19 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Email;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "user_table")
-@ToString(exclude = {"subscription"})
-@EqualsAndHashCode(exclude = {"subscription"})
+@ToString(exclude = {"subscription", "movieList"})
+@EqualsAndHashCode(exclude = {"subscription", "movieList"})
 public class User {
 
     @Id
@@ -63,4 +64,13 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "sub_id", referencedColumnName = "id")
     private Subscription subscription;
+
+    @JsonManagedReference
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "l_user_movie",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "movie_id")}
+    )
+    private Set<Movie> movieList = new HashSet<>();
 }
