@@ -17,8 +17,8 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "user_table")
-@ToString(exclude = {"subscription", "movieList"})
-@EqualsAndHashCode(exclude = {"subscription", "movieList"})
+@ToString(exclude = {"subscription", "movieList", "commentList"})
+@EqualsAndHashCode(exclude = {"subscription", "movieList", "commentList"})
 public class User {
 
     @Id
@@ -73,4 +73,8 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "movie_id")}
     )
     private Set<Movie> movieList = new HashSet<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<Comment> commentList = new HashSet<>();
 }
