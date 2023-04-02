@@ -1,7 +1,10 @@
 package com.tms.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tms.annotation.FirstCharacter8;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +16,8 @@ import java.sql.Date;
 @Data
 @Entity
 @Table(name = "user_table")
+@ToString(exclude = {"subscription"})
+@EqualsAndHashCode(exclude = {"subscription"})
 public class User {
 
     @Id
@@ -53,4 +58,9 @@ public class User {
 
     @Column(name = "birthday_date")
     private Date birthdate;
+
+    @JsonManagedReference
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "sub_id", referencedColumnName = "id")
+    private Subscription subscription;
 }

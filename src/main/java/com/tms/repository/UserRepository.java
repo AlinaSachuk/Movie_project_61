@@ -22,19 +22,17 @@ public class UserRepository {
 
     public ArrayList<User> getAllUsers(){
         Session session = sessionFactory.openSession();
-        session.beginTransaction();
         Query query = session.createQuery("from User");
         ArrayList<User> list = (ArrayList<User>) query.getResultList();
-        session.getTransaction().commit();
         session.close();
         return list;
     }
 
     public User getUserById(int id) {
         Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        User user = session.get(User.class, id);
-        session.getTransaction().commit();
+        Query query = session.createQuery("from User u where u.id=:userId");
+        query.setParameter("userId", id);
+        User user = (User) query.getSingleResult();
         session.close();
         if (user != null) {
             return user;
@@ -46,7 +44,18 @@ public class UserRepository {
         try {
             Session session = sessionFactory.openSession();
             session.beginTransaction();
-            session.save(user);
+            Query query = session.createNativeQuery("Insert Into user_table (id, first_name, last_name, login, password, created, changed, email, telephone, birthday_date)" +
+                    "Values (DEFAULT, :first_name, :last_name, :login, :password, :created, :changed, :email, :telephone, :birthday_date)");
+            query.setParameter("first_name", user.getFirstName());
+            query.setParameter("last_name", user.getLastName());
+            query.setParameter("login", user.getLogin());
+            query.setParameter("password", user.getPassword());
+            query.setParameter("created", user.getCreated());
+            query.setParameter("changed", user.getChanged());
+            query.setParameter("email", user.getEmail());
+            query.setParameter("telephone", user.getTelephoneNumber());
+            query.setParameter("birthday_date", user.getBirthdate());
+            int countChangedRows = query.executeUpdate();
             session.getTransaction().commit();
             session.close();
             return true;
