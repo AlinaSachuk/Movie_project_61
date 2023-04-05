@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Optional;
 
 
 @RestController
@@ -55,10 +56,10 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping("/getMovies/{id}")
-    public ResponseEntity<ArrayList<Movie>> giveAllMoviesForThisUser(@PathVariable int id) {
-        return new ResponseEntity<>(userService.getMoviesForSingleUser(id), HttpStatus.OK);
-    }
+    //@GetMapping("/getMovies/{id}")
+    //public ResponseEntity<ArrayList<Movie>> giveAllMoviesForThisUser(@PathVariable int id) {
+    //    return new ResponseEntity<>(userService.getMoviesForSingleUser(id), HttpStatus.OK);
+    //}
 
     @PostMapping
     public ResponseEntity<HttpStatus> createUser(@RequestBody @Valid User user, BindingResult bindingResult) {
@@ -71,21 +72,27 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PostMapping("/addFilm")
-    public ResponseEntity<HttpStatus> addFilm(@RequestParam int userId, @RequestParam int movieId) {
-        userService.addMovieToUser(userId, movieId);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
+    //@PostMapping("/addFilm")
+    //public ResponseEntity<HttpStatus> addFilm(@RequestParam int userId, @RequestParam int movieId) {
+    //    userService.addMovieToUser(userId, movieId);
+    //    return new ResponseEntity<>(HttpStatus.CREATED);
+    //}
 
     @PutMapping
     public void updateUser(@RequestBody User user) {
         userService.updateUser(user);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteUser(@PathVariable int id) {
-        userService.deleteUser(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    //@DeleteMapping("/{id}")
+    //public ResponseEntity deleteUser(@PathVariable int id) {
+    //    userService.deleteUser(id);
+    //    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    //}
+
+    @GetMapping("/ln/{lastName}")
+    public ResponseEntity<User> findUserByLastName(@PathVariable String lastName){
+        Optional<User> user = userService.findUserByLastName(lastName);
+        return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.CONFLICT));
     }
     /* @ExceptionHandler(ArithmeticException.class)
     public String myFirstExHand(Exception e){
