@@ -45,12 +45,12 @@ public class UserService {
     //    return userRepository.getMoviesForSingleUser(id);
     //}
 
-    //@Transactional
-    //public void deleteUser(int id) {
-     //   userRepository.deleteUser(id);
-    //}
+    @Transactional
+    public void deleteUser(int id) {
+        userRepository.deleteUser(id);
+    }
 
-    public Optional<User> findUserByLastName(String lastName){
+    public Optional<User> findUserByLastName(String lastName) {
         return userRepository.findUserByLastName(lastName);
     }
 }

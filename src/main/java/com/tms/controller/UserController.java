@@ -83,11 +83,11 @@ public class UserController {
         userService.updateUser(user);
     }
 
-    //@DeleteMapping("/{id}")
-    //public ResponseEntity deleteUser(@PathVariable int id) {
-    //    userService.deleteUser(id);
-    //    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    //}
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteUser(@PathVariable int id) {
+        userService.deleteUser(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
     @GetMapping("/ln/{lastName}")
     public ResponseEntity<User> findUserByLastName(@PathVariable String lastName){
