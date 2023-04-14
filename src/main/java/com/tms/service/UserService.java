@@ -1,7 +1,7 @@
 package com.tms.service;
 
-import com.tms.domain.Movie;
 import com.tms.domain.User;
+import com.tms.domain.DTO.UserRegistrationDto;
 import com.tms.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,12 +13,14 @@ import java.util.Optional;
 
 @Service
 public class UserService {
+    private final String USER_ROLE = "USER";
     UserRepository userRepository;
 
-    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+    @Autowired
 
     public ArrayList<User> getAllUsers() {
         return (ArrayList<User>) userRepository.findAll();
@@ -28,12 +30,32 @@ public class UserService {
         return userRepository.findById(id).orElse(new User());
     }
 
-    public User createUser(User user) {
+    public User createUser(UserRegistrationDto userDto) {
+        User user = new User();
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setLogin(userDto.getLogin());
+        user.setPassword(userDto.getPassword());
+        user.setEmail(userDto.getEmail());
+        user.setBirthdate(userDto.getBirthdate());
+        user.setTelephoneNumber(userDto.getTelephoneNumber());
+        user.setCreated(new Date(System.currentTimeMillis()));
+        user.setChanged(new Date(System.currentTimeMillis()));
+        user.setDeleted(false);
+        user.setRole(USER_ROLE);
         return userRepository.save(user);
     }
 
-    public User updateUser(User user) {
-        user.setCreated(new Date(System.currentTimeMillis()));
+    public User updateUser(UserRegistrationDto userDto) {
+        User user = new User();
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setLogin(userDto.getLogin());
+        user.setPassword(userDto.getPassword());
+        user.setEmail(userDto.getEmail());
+        user.setBirthdate(userDto.getBirthdate());
+        user.setTelephoneNumber(userDto.getTelephoneNumber());
+        user.setChanged(new Date(System.currentTimeMillis()));
         return userRepository.saveAndFlush(user);
     }
 

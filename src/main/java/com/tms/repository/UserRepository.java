@@ -12,6 +12,8 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findUserByLastName(String lastName);
 
+    Optional<User> findUserByLogin(String login);
+
     @Modifying
     @Query(nativeQuery = true, value = "UPDATE user_table SET is_deleted = true WHERE id=:id", countQuery = "SELECT * from user_table WHERE id=:id")
     void deleteUser(Integer id);

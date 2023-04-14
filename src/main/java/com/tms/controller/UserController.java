@@ -1,7 +1,7 @@
 package com.tms.controller;
 
-import com.tms.domain.Movie;
 import com.tms.domain.User;
+import com.tms.domain.DTO.UserRegistrationDto;
 import com.tms.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -62,13 +62,13 @@ public class UserController {
     //}
 
     @PostMapping
-    public ResponseEntity<HttpStatus> createUser(@RequestBody @Valid User user, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> createUser(@RequestBody @Valid UserRegistrationDto userDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
-                log.warn("We have bindingResult error: " + o);
+                log.warn("We have bindingResult error : " + o);
             }
         }
-        userService.createUser(user);
+        userService.createUser(userDto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -79,8 +79,8 @@ public class UserController {
     //}
 
     @PutMapping
-    public void updateUser(@RequestBody User user) {
-        userService.updateUser(user);
+    public void updateUser(@RequestBody UserRegistrationDto userDto) {
+        userService.updateUser(userDto);
     }
 
     @DeleteMapping("/{id}")

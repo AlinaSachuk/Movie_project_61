@@ -1,5 +1,6 @@
 package com.tms.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,6 +15,12 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
 public class SecurityConfig {
+    //private final CustomUserDetailService customUserDetailService;
+
+   // @Autowired
+   // public SecurityConfig(CustomUserDetailService customUserDetailService) {
+   //     this.customUserDetailService = customUserDetailService;
+   // }
 
     @Bean
     public UserDetailsService users(){
@@ -34,9 +41,13 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .antMatchers(HttpMethod.GET, "/user/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/user/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/user/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/user/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/user/**").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
+                //.userDetailsService(customUserDetailService)
                 .httpBasic()
                 .and()
                 .build();

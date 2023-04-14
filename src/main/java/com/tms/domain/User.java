@@ -1,5 +1,6 @@
 package com.tms.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tms.annotation.FirstCharacter8;
 import lombok.Data;
@@ -74,7 +75,11 @@ public class User {
     )
     private Set<Movie> movieList = new HashSet<>();
 
+    @JsonIgnore
     @JsonManagedReference
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private Set<Comment> commentList = new HashSet<>();
+
+    @Column(name = "role")
+    private String role;
 }
