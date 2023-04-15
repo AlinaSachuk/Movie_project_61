@@ -19,7 +19,7 @@ public class ExceptionResolver {
 
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(ArithmeticException.class)
-    public String muFirstExHand(Exception e){
+    public String muFirstExHand(Exception e) {
         log.warn("ArithmeticException: " + e);
         return "unsuccessfully";
     }

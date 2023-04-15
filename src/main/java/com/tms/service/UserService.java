@@ -1,7 +1,7 @@
 package com.tms.service;
 
 import com.tms.domain.User;
-import com.tms.domain.DTO.UserRegistrationDto;
+import com.tms.domain.dto.UserDto;
 import com.tms.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class UserService {
         return userRepository.findById(id).orElse(new User());
     }
 
-    public User createUser(UserRegistrationDto userDto) {
+    public User createUser(UserDto userDto) {
         User user = new User();
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
@@ -46,8 +46,9 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User updateUser(UserRegistrationDto userDto) {
-        User user = new User();
+    public User updateUser(UserDto userDto) {
+        User user = userRepository.findUserById(userDto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("User by id not found: " + userDto.getId()));
         user.setFirstName(userDto.getFirstName());
         user.setLastName(userDto.getLastName());
         user.setLogin(userDto.getLogin());

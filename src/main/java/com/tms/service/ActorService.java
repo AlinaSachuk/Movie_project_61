@@ -25,7 +25,8 @@ public class ActorService {
     public boolean updateActor(int id, String firstName, String lastName, int age, String biography) {
         return actorRepository.updateActor(id, firstName, lastName, age, biography);
     }
-    public boolean deleteActor (int id){
+
+    public boolean deleteActor(int id) {
         return actorRepository.deleteActor(id);
     }
 }

@@ -1,7 +1,7 @@
 package com.tms.controller;
 
 import com.tms.domain.User;
-import com.tms.domain.DTO.UserRegistrationDto;
+import com.tms.domain.dto.UserDto;
 import com.tms.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -62,7 +62,7 @@ public class UserController {
     //}
 
     @PostMapping
-    public ResponseEntity<HttpStatus> createUser(@RequestBody @Valid UserRegistrationDto userDto, BindingResult bindingResult) {
+    public ResponseEntity<HttpStatus> createUser(@RequestBody @Valid UserDto userDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             for (ObjectError o : bindingResult.getAllErrors()) {
                 log.warn("We have bindingResult error : " + o);
@@ -79,7 +79,7 @@ public class UserController {
     //}
 
     @PutMapping
-    public void updateUser(@RequestBody UserRegistrationDto userDto) {
+    public void updateUser(@RequestBody UserDto userDto) {
         userService.updateUser(userDto);
     }
 
@@ -90,7 +90,7 @@ public class UserController {
     }
 
     @GetMapping("/ln/{lastName}")
-    public ResponseEntity<User> findUserByLastName(@PathVariable String lastName){
+    public ResponseEntity<User> findUserByLastName(@PathVariable String lastName) {
         Optional<User> user = userService.findUserByLastName(lastName);
         return user.map(value -> new ResponseEntity<>(value, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.CONFLICT));
     }

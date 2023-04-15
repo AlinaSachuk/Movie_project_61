@@ -1,26 +1,26 @@
 <!DOCTYPE hibernate-configuration PUBLIC
-                "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-                "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
-<session-factory>
+    <session-factory>
 
-    <property name="connection.url">jdbc:postgresql://localhost:5432/movie_db</property>
-    <property name="connection.driver_class">org.postgresql.Driver</property>
-    <property name="connection.username">postgres</property>
-    <property name="connection.password">root</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/movie_db</property>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">root</property>
 
-    <property name="dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
-    <property name="hbm2ddl.auto">none</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQL82Dialect</property>
+        <property name="hbm2ddl.auto">none</property>
 
-    <property name="show_sql">true</property>
-    <property name="format_sql">true</property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
 
-    <mapping class="com.tms.domain.User"/>
-    <mapping class="com.tms.domain.Subscription"/>
-    <mapping class="com.tms.domain.Movie"/>
-    <mapping class="com.tms.domain.Actor"/>
-    <mapping class="com.tms.domain.Comment"/>
+        <mapping class="com.tms.domain.User"/>
+        <mapping class="com.tms.domain.Subscription"/>
+        <mapping class="com.tms.domain.Movie"/>
+        <mapping class="com.tms.domain.Actor"/>
+        <mapping class="com.tms.domain.Comment"/>
 
-</session-factory>
+    </session-factory>
 </hibernate-configuration>

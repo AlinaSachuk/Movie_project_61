@@ -1,4 +1,4 @@
-package com.tms.domain.DTO;
+package com.tms.domain.dto;
 
 import com.tms.annotation.FirstCharacter8;
 import lombok.AllArgsConstructor;
@@ -9,10 +9,10 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.sql.Date;
 
-
 @Data
 @AllArgsConstructor
-public class UserRegistrationDto {
+public class UserDto {
+    private int id;
     private String firstName;
 
     private String lastName;

@@ -5,13 +5,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class SomeLogic {
 
-    void firstTestMethod(){
+    void firstTestMethod() {
         System.out.println("Hello 1");
         System.out.println("Hello 2");
         System.out.println("Hello 3");
     }
 
-    String secondTestMethod(){
+    String secondTestMethod() {
         System.out.println("Bye 1");
         System.out.println("Bye 2");
         System.out.println("Bye 3");

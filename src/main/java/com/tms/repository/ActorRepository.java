@@ -57,7 +57,8 @@ public class ActorRepository {
         }
         return result == 1;
     }
-    public boolean deleteActor (int id){
+
+    public boolean deleteActor(int id) {
         int result = 0;
         try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/movie_db", "postgres", "root")) {
             PreparedStatement statement = connection.prepareStatement("DELETE FROM actors WHERE id=?");

@@ -34,7 +34,7 @@ public class FileController {
     }
 
     @GetMapping("/{filename}")
-    public ResponseEntity<Resource> getFile (@PathVariable String filename) {
+    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         Path path = ROOT_FILE_PATH.resolve(filename);
         try {
             Resource resource = new UrlResource(path.toUri());
@@ -50,9 +50,9 @@ public class FileController {
     }
 
     @GetMapping
-    public ResponseEntity<ArrayList <String>> getFiles (){
+    public ResponseEntity<ArrayList<String>> getFiles() {
         try {
-            ArrayList<String> filenames = (ArrayList<String>) Files.walk(this.ROOT_FILE_PATH, 1).filter(path -> ! path.equals(this.ROOT_FILE_PATH)).map(Path::toString).collect(Collectors.toList());
+            ArrayList<String> filenames = (ArrayList<String>) Files.walk(this.ROOT_FILE_PATH, 1).filter(path -> !path.equals(this.ROOT_FILE_PATH)).map(Path::toString).collect(Collectors.toList());
             return new ResponseEntity<>(filenames, HttpStatus.OK);
         } catch (IOException e) {
             e.printStackTrace();
@@ -61,10 +61,10 @@ public class FileController {
     }
 
     @DeleteMapping("/{filename}")
-    public ResponseEntity<HttpStatus> deleteFile (@PathVariable String filename){
+    public ResponseEntity<HttpStatus> deleteFile(@PathVariable String filename) {
         Path path = ROOT_FILE_PATH.resolve(filename);
         File file = new File(path.toString());
-        if (file.delete()){
+        if (file.delete()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(HttpStatus.CONFLICT);

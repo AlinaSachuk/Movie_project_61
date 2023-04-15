@@ -16,10 +16,12 @@ public class LoggerAspect {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     @Pointcut("execution(public * com.tms.*.*(String, Long))")
-    public void f(){}
+    public void f() {
+    }
 
     @Pointcut("execution(public * com.tms.*.*(String))")
-    public void ff(){}
+    public void ff() {
+    }
 
     @Around("f() || ff()")
     public void getLogAround(ProceedingJoinPoint joinPoint) throws Throwable {

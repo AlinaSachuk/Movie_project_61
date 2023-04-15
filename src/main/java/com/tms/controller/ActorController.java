@@ -58,7 +58,7 @@ public class ActorController {
     }
 
     @DeleteMapping("/{id}")
-    public String deleteActor(@PathVariable int id){
+    public String deleteActor(@PathVariable int id) {
         log.info("doing /actor Delete method!");
         boolean result = actorService.deleteActor(id);
         return result ? "successfully" : "unsuccessfully";

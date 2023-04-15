@@ -5,8 +5,6 @@ import com.tms.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.*;
-
 @Service
 public class MovieService {
     MovieRepository movieRepository;
